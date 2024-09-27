@@ -18,8 +18,8 @@ class VKBot:
         # login, password = "87475124705", "123456SAma"
         # vk_session = vk_api.VkApi(login, password, auth_handler=two_factor)
         # vk_session.auth(token_only=True)
-        self.vk = vk_api.VkApi(login="87475124705", token=config['VK']['token']).auth(token_only=True)  # сюда вставляем
-        self.vk_user = vk_api.VkApi(token=config['VK']['user_token'])  # и сюда тоже
+        self.vk = vk_api.VkApi(login="87475124705", token=config['VK']['user_token']).auth(token_only=True)  # сюда вставляем
+        self.vk_user = vk_api.VkApi(login="87475124705", token=config['VK']['group_token']).auth(token_only=True)  # и сюда тоже
 
     def longpoll(self):
         return VkLongPoll(self.vk)  # слушаем сообщения
