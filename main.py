@@ -7,13 +7,22 @@ import requests
 config = configparser.ConfigParser()
 config.read('config.ini')  # отсюда токен достаем
 
+def two_factor():
+    code = input('Code? ')
+    remember_device = True
+    return code, remember_device
 
 # так значится, тут у нас класс вк бота
 class VKBot:
     def __init__(self):
-        self.vk = vk_api.VkApi(token=config['VK']['token']) #сюда вставляем
-        self.vk_user = vk_api.VkApi(token=config['VK']['user_token']) # и сюда тоже
-        self.longpoll = VkLongPoll(self.vk) #слушаем сообщения
+        # login, password = "87475124705", "123456SAma"
+        # vk_session = vk_api.VkApi(login, password, auth_handler=two_factor)
+        # vk_session.auth(token_only=True)
+        self.vk = vk_api.VkApi(login="87475124705", token=config['VK']['token']).auth(token_only=True)  # сюда вставляем
+        self.vk_user = vk_api.VkApi(token=config['VK']['user_token'])  # и сюда тоже
+
+    def longpoll(self):
+        return VkLongPoll(self.vk)  # слушаем сообщения
 
     # метод для получения города пользователя
     def get_user_city(self, user_id):
@@ -89,7 +98,7 @@ class VKBot:
         user_data = response_json['response']['items']
 
         for i in user_data:
-            if i.get('is_closed') == False: # если пользователь не в ЧС
+            if not i.get('is_closed'):  # если пользователь не в ЧС
                 i_id = i.get('id')
                 i_name = i.get('first_name') + ' ' + i.get('last_name')
                 i_link = 'https://vk.com/id' + str(i_id)

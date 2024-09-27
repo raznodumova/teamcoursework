@@ -1,13 +1,8 @@
 from keyboard_vk import keyb
 from main import VKBot
 from vk_api.longpoll import VkLongPoll, VkEventType
-from DB_code import DB, User, UserPrompt, Liked, Banned
+from tables import User, UserPrompt, Liked, Banned
 from random import randrange
-
-
-db_bot = DB("vk_bot")
-db_bot.create_db()
-db_bot.create_tables()
 
 
 def write_message(user_id, message):
@@ -135,3 +130,4 @@ def write_message(user_id, message):
 
             else:
                 write_message(user_id, 'Я не понимаю тебя, попробуй ещё раз')
+
